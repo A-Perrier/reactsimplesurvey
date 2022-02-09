@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+# React Simple Survey
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React Simple Survey is a easy-to-use survey renderer.
 
-## Available Scripts
+## How to create a survey
 
-In the project directory, you can run:
+You first have to build the survey. A ReactSimpleSurvey object is build from one or multiple SurveyScreen objects, in which ones you will describe the screen title, the catchphrase or any information you want, and the form fields and their validation requirements.
 
-### `npm start`
+Here's a simple example :
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+``` javascript
+const survey = new ReactSimpleSurvey("My first survey")
+.addScreen(
+  new SurveyScreen({
+      name: "About you",
+      question: "What's your name ?"
+  })
+  .addField(
+    "input", 
+    { name: 'First name', placeholder: 'Your first name' },
+    { between: [2, 30], required: true }
+  )
+)
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+As you see, we're first creating a new ReactSimpleSurvey object. The string passed in parameter will be the label displayed at the top of the survey.
+Then, we have to create our SurveyScreens, which will be a full screen content displayed to the user. Our SurveyScreen created, let's add fields to it !
+On the first parameter of the addField method, we are defining the HTML node that will be displayed (Warning: at the moment only input and textarea are supported). In the second parameter, we'll define how to explain the user the input is for. And the third parameter is dedicated to the validation. Check to [Assert class](./src/Validation/Assert.js) to see which methods are available.
 
-### `npm test`
+You can call addScreen method as many times you want to fulfill your needs.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to invoke a survey
 
-### `npm run build`
+As shown in [App.js](./src/App.js), we can display the ReactSimpleSurvey data through the Survey component as below:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+``` jsx
+<Survey
+  survey={survey}
+  dirAxis="x"
+  onSubmit={(surveyCompleted) => handleSurveySubmit(surveyCompleted)}
+  onCloseRequest={() => setShowSurvey(false)}
+/>
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Check App.js@handleSurveySubmit to check how to get only the answers instead of the whole survey enriched with the user answers.
+Note that the props in the exemple above are all the props available on the Survey component.

@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import Survey from './lib/Survey';
+import surveyExemple from './surveyExemple';
 
 function App() {
+  const [showSurvey, setShowSurvey] = useState(true)
+  
+  function handleSurveySubmit (survey) {
+    const answers = []
+    survey.screens.map(screen => {
+      screen.form.map(field => {
+        answers[field.attr.name] = field.attr.value
+      })
+    })
+    
+    console.log(answers)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <button 
+        className="survey-btn" 
+        onClick={() => setShowSurvey(true)}
+        style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+        Start the survey !</button>
+    {      
+      showSurvey &&
+        <Survey
+          survey={surveyExemple}
+          dirAxis="x"
+          onSubmit={(surveyCompleted) => handleSurveySubmit(surveyCompleted)}
+          onCloseRequest={() => setShowSurvey(false)}
+        />
+        }
+    </>
   );
 }
 

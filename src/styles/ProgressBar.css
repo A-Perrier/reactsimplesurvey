@@ -1,0 +1,8 @@
+.progress-bar {
+  position: absolute;
+  top: 1vh;
+  z-index: 1;
+  width: 80vw !important;
+  left: 50%;
+  transform: translateX(-50%);
+}
