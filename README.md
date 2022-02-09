@@ -2,6 +2,8 @@
 
 React Simple Survey is an easy-to-use survey renderer.
 
+[Demo](./demo.gif)
+
 ## How to create a survey
 
 You first have to build the survey. A ReactSimpleSurvey object is build from one or multiple SurveyScreen objects, in which ones you will describe the screen title, the catchphrase or any information you want, and the form fields and their validation requirements.
