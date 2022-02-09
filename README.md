@@ -1,6 +1,6 @@
 # React Simple Survey
 
-React Simple Survey is a easy-to-use survey renderer.
+React Simple Survey is an easy-to-use survey renderer.
 
 ## How to create a survey
 
